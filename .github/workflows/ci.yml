@@ -50,6 +50,22 @@ jobs:
         with:
           fetch-depth: 5
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install DVC
+        run: pip install dvc dvc-s3
+
+      - name: Configure DVC remote credentials
+        run: |
+          dvc remote modify remote --local access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          dvc remote modify remote --local secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Pull data with DVC
+        run: dvc pull
+
       - name: Generate dev_sec_ops.yml
         run: |
           {
