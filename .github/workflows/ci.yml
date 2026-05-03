@@ -29,6 +29,9 @@ jobs:
           dvc remote modify remote --local access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           dvc remote modify remote --local secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Pull data with DVC
+        run: dvc pull
+
       - name: Reproduce pipeline with DVC
         run: dvc repro
 
