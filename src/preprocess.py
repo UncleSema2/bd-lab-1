@@ -1,7 +1,6 @@
 import configparser
 import os
 import pandas as pd
-from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 
 from src.logger import Logger
@@ -22,20 +21,10 @@ class DataMaker:
         self.y_train_path = self.config["SPLIT_DATA"]["y_train"]
         self.X_test_path = self.config["SPLIT_DATA"]["x_test"]
         self.y_test_path = self.config["SPLIT_DATA"]["y_test"]
-        os.makedirs(os.path.dirname(self.X_path), exist_ok=True)
+        os.makedirs(os.path.dirname(self.X_train_path), exist_ok=True)
         self.log.info("DataMaker is ready")
 
-    def get_data(self) -> bool:
-        dataset = load_breast_cancer(as_frame=True)
-        X = dataset.data
-        y = dataset.target.to_frame()
-        X.to_csv(self.X_path, index=True)
-        y.to_csv(self.y_path, index=True)
-        self.log.info("X and y data is ready")
-        return os.path.isfile(self.X_path) and os.path.isfile(self.y_path)
-
     def split_data(self, test_size=TEST_SIZE) -> bool:
-        self.get_data()
         X = pd.read_csv(self.X_path, index_col=0)
         y = pd.read_csv(self.y_path, index_col=0)
         X_train, X_test, y_train, y_test = train_test_split(

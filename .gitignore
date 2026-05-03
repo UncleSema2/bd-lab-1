@@ -7,5 +7,4 @@ logfile.log
 data/
 experiments/
 *.sav
-/data
 .venv
