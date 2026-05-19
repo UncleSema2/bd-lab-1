@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+    image: unclesema2/bd-lab-1-8:latest
+    pull_policy: build
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl http://localhost:8000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
